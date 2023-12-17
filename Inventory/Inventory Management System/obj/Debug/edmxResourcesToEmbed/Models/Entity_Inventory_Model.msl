@@ -186,9 +186,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="vw_HistoryTransaction">
-      <EntityTypeMapping TypeName="InventoryDBModel.vw_HistoryTransaction">
-        <MappingFragment StoreEntitySet="vw_HistoryTransaction">
+    <EntitySetMapping Name="vw_Transaction_History">
+      <EntityTypeMapping TypeName="InventoryDBModel.vw_Transaction_History">
+        <MappingFragment StoreEntitySet="vw_Transaction_History">
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="Customer" ColumnName="Customer" />
           <ScalarProperty Name="Date" ColumnName="Date" />

@@ -271,14 +271,14 @@ BEGIN
 END;
 
 ----------------------------------------------------------------------------------------------------------------------------------------
-Create View vw_HistoryTransaction
+Create View vw_Transaction_History
 AS
 	SELECT H.Transact_ID AS 'ID',
 			C.OrderNo AS 'Order no',
 			Lower(CONCAT(A.user_ID, '-',A.user_firstname, ' ', A.user_lastname)) AS 'Clerk',
 			P.product_Name AS 'Products',
 			Category.categoryName AS 'Category',
-			P.product_Quantity AS 'Quantity',
+			C.OrderQuantity AS 'Quantity',
 			ROUND(SUM(CAST(P.product_Price * P.product_Quantity AS DECIMAL(10, 2))), 2) AS 'Total',
 			C.Order_Date AS 'Date',
 			C.customer_name AS 'Customer',
@@ -297,7 +297,7 @@ AS
 		H.Transact_ID,
 		C.OrderNo,
 		A.user_ID, A.user_firstname, A.user_lastname,
-		P.product_Name, P.product_Quantity,
+		P.product_Name, C.OrderQuantity,
 		Category.categoryName, C.Order_Date, C.customer_name, C.customer_Address;
 
 ---------------------------------------------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ SELECT FORMAT(SUM(Total), 'N2') FROM vw_HistoryTransaction
 
 
 SELECT * FROM vw_PendingOrders
-SELECT * FROM vw_HistoryTransaction
+SELECT * FROM vw_Transaction_History
 
 SELECT * FROM Cart
 SELECT * FROM Category

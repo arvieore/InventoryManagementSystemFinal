@@ -59,7 +59,7 @@ namespace Inventory_Management_System.UserControls
 
             if (Cbox_Category.Text != "All")
             {
-                dgv_Transactions.DataSource = db.vw_HistoryTransaction.Where(c => c.Category == Cbox_Category.Text).ToList();
+                dgv_Transactions.DataSource = db.vw_Transaction_History.Where(c => c.Category == Cbox_Category.Text).ToList();
                 dgv_Transactions.Columns["ID"].Width = 30;
                 dgv_Transactions.Columns["Order_no"].HeaderText = "Order number";
                 dgv_Transactions.Columns["Order_no"].Width = 85;
@@ -69,7 +69,7 @@ namespace Inventory_Management_System.UserControls
                 dgv_Transactions.Columns["Total"].Width = 80;
                 dgv_Transactions.Columns["Date"].Width = 85;
 
-                decimal? total = db.vw_HistoryTransaction.Where(s => s.Category == Cbox_Category.Text).Select(s => s.Total).Sum();
+                decimal? total = db.vw_Transaction_History.Where(s => s.Category == Cbox_Category.Text).Select(s => s.Total).Sum();
                 if (total > 0)
                 {
                     lblTotal.Text = "₱ " + total?.ToString("#,##0.00");
@@ -79,7 +79,7 @@ namespace Inventory_Management_System.UserControls
             }
             else
             {
-                dgv_Transactions.DataSource = db.vw_HistoryTransaction.ToList();
+                dgv_Transactions.DataSource = db.vw_Transaction_History.ToList();
                 dgv_Transactions.Columns["ID"].Width = 30;
                 dgv_Transactions.Columns["Order_no"].HeaderText = "Order number";
                 dgv_Transactions.Columns["Order_no"].Width = 85;
@@ -89,7 +89,7 @@ namespace Inventory_Management_System.UserControls
                 dgv_Transactions.Columns["Total"].Width = 80;
                 dgv_Transactions.Columns["Date"].Width = 85;
 
-                decimal? total = db.vw_HistoryTransaction.Select(s => s.Total).Sum();
+                decimal? total = db.vw_Transaction_History.Select(s => s.Total).Sum();
                 if (total > 0)
                 {
                     lblTotal.Text = "₱ " + total?.ToString("#,##0.00");
@@ -108,25 +108,27 @@ namespace Inventory_Management_System.UserControls
                 }
                 else
                 {
-                    var filteredData = db.vw_HistoryTransaction
+                    var filteredData = db.vw_Transaction_History
                         .Where(p =>
                             p.Order_no.ToString().Contains(searchText) ||
                             p.Clerk.Contains(searchText) ||
                             p.Products.Contains(searchText) ||
                             p.Category.Contains(searchText) ||
                             p.Customer.Contains(searchText) ||
-                            p.Address.Contains(searchText)
+                            p.Address.Contains(searchText) ||
+                            p.Date.ToString().Contains(searchText)
                         ).ToList();
                     dgv_Transactions.DataSource = filteredData;
 
-                    var filteredTotal = db.vw_HistoryTransaction
+                    var filteredTotal = db.vw_Transaction_History
                         .Where(p =>
                             p.Order_no.ToString().Contains(searchText) ||
                             p.Clerk.Contains(searchText) ||
                             p.Products.Contains(searchText) ||
                             p.Category.Contains(searchText) ||
                             p.Customer.Contains(searchText) ||
-                            p.Address.Contains(searchText)
+                            p.Address.Contains(searchText) ||
+                            p.Date.ToString().Contains(searchText)
                         ).Select(p => p.Total).Sum().ToString();
 
                     decimal? total = Decimal.Parse(filteredTotal);
