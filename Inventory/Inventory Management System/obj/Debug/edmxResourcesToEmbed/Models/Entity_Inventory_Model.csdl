@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InventoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="user_ID" />
+    </Key>
+    <Property Name="user_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="user_firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="roleID" Type="Int32" />
+    <NavigationProperty Name="Role" Relationship="InventoryDBModel.FK_Accounts_Role" FromRole="Accounts" ToRole="Role" />
+    <Property Name="user_gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="user_birthdate" Type="DateTime" Precision="0" />
+    <Property Name="user_Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Cart" Relationship="InventoryDBModel.FK_Cart_Accounts" FromRole="Accounts" ToRole="Cart" />
+    <NavigationProperty Name="HistoryTransaction" Relationship="InventoryDBModel.FK_HistoryTransaction_Accounts" FromRole="Accounts" ToRole="HistoryTransaction" />
+  </EntityType>
+  <EntityContainer Name="DB_InventoryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Accounts" />
+    <FunctionImport Name="sp_ValidateAccount" ReturnType="Collection(InventoryDBModel.sp_ValidateAccount_Result)">
+      <Parameter Name="user_name" Mode="In" Type="String" />
+      <Parameter Name="user_password" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Category" EntityType="InventoryDBModel.Category" />
+    <EntitySet Name="Products" EntityType="InventoryDBModel.Products" />
+    <AssociationSet Name="FK_Products_Category" Association="InventoryDBModel.FK_Products_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <FunctionImport Name="sp_AddNewProduct">
+      <Parameter Name="CategoryName" Mode="In" Type="String" />
+      <Parameter Name="productName" Mode="In" Type="String" />
+      <Parameter Name="product_sku" Mode="In" Type="String" />
+      <Parameter Name="product_quantity" Mode="In" Type="String" />
+      <Parameter Name="product_price" Mode="In" Type="Decimal" />
+      <Parameter Name="product_description" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_CategoryFilter" ReturnType="Collection(InventoryDBModel.sp_CategoryFilter_Result)">
+      <Parameter Name="CategoryFiltered" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Role" EntityType="InventoryDBModel.Role" />
+    <AssociationSet Name="FK_Accounts_Role" Association="InventoryDBModel.FK_Accounts_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <FunctionImport Name="sp_AddAccount">
+      <Parameter Name="firstname" Mode="In" Type="String" />
+      <Parameter Name="lastname" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+      <Parameter Name="gender" Mode="In" Type="String" />
+      <Parameter Name="birthdate" Mode="In" Type="DateTime" />
+      <Parameter Name="position" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_AccountFilter" ReturnType="Collection(InventoryDBModel.sp_AccountFilter_Result)">
+      <Parameter Name="AccountFiltered" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_SelectProduct" ReturnType="Collection(InventoryDBModel.sp_SelectProduct_Result)" />
+    <FunctionImport Name="sp_SelectCategory" ReturnType="Collection(InventoryDBModel.sp_SelectCategory1_Result)" />
+    <EntitySet Name="Cart" EntityType="InventoryDBModel.Cart" />
+    <AssociationSet Name="FK_Cart_Category" Association="InventoryDBModel.FK_Cart_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cart_Products" Association="InventoryDBModel.FK_Cart_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cart_Accounts" Association="InventoryDBModel.FK_Cart_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <EntitySet Name="vw_LastOrderNumber" EntityType="InventoryDBModel.vw_LastOrderNumber" />
+    <FunctionImport Name="sp_OrderDisplay" ReturnType="Collection(InventoryDBModel.sp_OrderDisplay_Result)">
+      <Parameter Name="orderNo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="vw_PendingOrders" EntityType="InventoryDBModel.vw_PendingOrders" />
+    <FunctionImport Name="sp_CartCategoryFilter" ReturnType="Collection(InventoryDBModel.sp_CartCategoryFilter_Result)">
+      <Parameter Name="CategoryFiltered" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="HistoryTransaction" EntityType="InventoryDBModel.HistoryTransaction" />
+    <AssociationSet Name="FK_HistoryTransaction_Accounts" Association="InventoryDBModel.FK_HistoryTransaction_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Cart" Association="InventoryDBModel.FK_HistoryTransaction_Cart">
+      <End Role="Cart" EntitySet="Cart" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Category1" Association="InventoryDBModel.FK_HistoryTransaction_Category1">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Products" Association="InventoryDBModel.FK_HistoryTransaction_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <EntitySet Name="vw_HistoryTransaction" EntityType="InventoryDBModel.vw_HistoryTransaction" />
+  </EntityContainer>
+  <ComplexType Name="sp_ValidateAccount_Result">
+    <Property Type="Int32" Name="user_ID" Nullable="false" />
+    <Property Type="String" Name="user_Position" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="Int32" Nullable="false" />
+    <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="InventoryDBModel.FK_Products_Category" FromRole="Category" ToRole="Products" />
+    <NavigationProperty Name="Cart" Relationship="InventoryDBModel.FK_Cart_Category" FromRole="Category" ToRole="Cart" />
+    <NavigationProperty Name="HistoryTransaction" Relationship="InventoryDBModel.FK_HistoryTransaction_Category1" FromRole="Category" ToRole="HistoryTransaction" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="Int32" Nullable="false" />
+    <Property Name="product_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="product_Sku" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="product_Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="product_Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="product_Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="categoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="InventoryDBModel.FK_Products_Category" FromRole="Products" ToRole="Category" />
+    <NavigationProperty Name="Cart" Relationship="InventoryDBModel.FK_Cart_Products" FromRole="Products" ToRole="Cart" />
+    <NavigationProperty Name="HistoryTransaction" Relationship="InventoryDBModel.FK_HistoryTransaction_Products" FromRole="Products" ToRole="HistoryTransaction" />
+  </EntityType>
+  <Association Name="FK_Products_Category">
+    <End Type="InventoryDBModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="InventoryDBModel.Products" Role="Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_CategoryFilter_Result">
+    <Property Type="Int32" Name="productID" Nullable="false" />
+    <Property Type="String" Name="product_Name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="product_Sku" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="product_Quantity" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="product_Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="product_Description" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Accounts" Relationship="InventoryDBModel.FK_Accounts_Role" FromRole="Role" ToRole="Accounts" />
+  </EntityType>
+  <Association Name="FK_Accounts_Role">
+    <End Type="InventoryDBModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="InventoryDBModel.Accounts" Role="Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_AccountFilter_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Position" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="vw_SelectedPanel_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Product_Name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SKU" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Quantity" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="sp_SelectedPanel_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Product_Name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SKU" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Quantity" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="sp_SelectCategory_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="categoryName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_SelectProduct_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Product_Name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SKU" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Quantity" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="sp_SelectCategory1_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="categoryName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="CartID" />
+    </Key>
+    <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productID" Type="Int32" Nullable="false" />
+    <Property Name="categoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="InventoryDBModel.FK_Cart_Category" FromRole="Cart" ToRole="Category" />
+    <NavigationProperty Name="Products" Relationship="InventoryDBModel.FK_Cart_Products" FromRole="Cart" ToRole="Products" />
+    <Property Name="user_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Accounts" Relationship="InventoryDBModel.FK_Cart_Accounts" FromRole="Cart" ToRole="Accounts" />
+    <Property Name="OrderNo" Type="Int32" Nullable="false" />
+    <Property Name="OrderQuantity" Type="Int32" Nullable="false" />
+    <Property Name="customer_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="customer_address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Order_status" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Order_Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="HistoryTransaction" Relationship="InventoryDBModel.FK_HistoryTransaction_Cart" FromRole="Cart" ToRole="HistoryTransaction" />
+  </EntityType>
+  <Association Name="FK_Cart_Category">
+    <End Type="InventoryDBModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="InventoryDBModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cart_Products">
+    <End Type="InventoryDBModel.Products" Role="Products" Multiplicity="1" />
+    <End Type="InventoryDBModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cart_Accounts">
+    <End Type="InventoryDBModel.Accounts" Role="Accounts" Multiplicity="1" />
+    <End Type="InventoryDBModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="user_ID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_CartDisplay_Result">
+    <Property Type="Int32" Name="Cart_ID" Nullable="false" />
+    <Property Type="String" Name="Clerk_name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Product" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Quantity" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_CartDisplay_Result1">
+    <Property Type="String" Name="Clerk" Nullable="true" MaxLength="113" />
+    <Property Type="Int32" Name="Order_no_" Nullable="false" />
+    <Property Type="String" Name="Product" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Customer" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="vw_LastOrderNumber">
+    <Key>
+      <PropertyRef Name="OrderNo" />
+    </Key>
+    <Property Name="OrderNo" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="sp_OrderDisplay_Result">
+    <Property Type="String" Name="Clerk" Nullable="true" MaxLength="113" />
+    <Property Type="Int32" Name="Order_no_" Nullable="false" />
+    <Property Type="String" Name="Product" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Customer" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="vw_PendingOrders">
+    <Key>
+      <PropertyRef Name="Order_no_" />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="Customer" />
+      <PropertyRef Name="Address" />
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="Clerk" Type="String" MaxLength="113" FixedLength="false" Unicode="false" />
+    <Property Name="Order_no_" Type="Int32" Nullable="false" />
+    <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Customer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="sp_CartCategoryFilter_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="ProductID" Nullable="false" />
+    <Property Type="String" Name="Clerk" Nullable="true" MaxLength="113" />
+    <Property Type="Int32" Name="Order_no_" Nullable="false" />
+    <Property Type="String" Name="Product" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="10" Scale="2" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Customer" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <EntityType Name="HistoryTransaction">
+    <Key>
+      <PropertyRef Name="Transact_ID" />
+    </Key>
+    <Property Name="Transact_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CartID" Type="Int32" Nullable="false" />
+    <Property Name="user_ID" Type="Int32" Nullable="false" />
+    <Property Name="productID" Type="Int32" Nullable="false" />
+    <Property Name="categoryID" Type="Int32" />
+    <NavigationProperty Name="Accounts" Relationship="InventoryDBModel.FK_HistoryTransaction_Accounts" FromRole="HistoryTransaction" ToRole="Accounts" />
+    <NavigationProperty Name="Cart" Relationship="InventoryDBModel.FK_HistoryTransaction_Cart" FromRole="HistoryTransaction" ToRole="Cart" />
+    <NavigationProperty Name="Category" Relationship="InventoryDBModel.FK_HistoryTransaction_Category1" FromRole="HistoryTransaction" ToRole="Category" />
+    <NavigationProperty Name="Products" Relationship="InventoryDBModel.FK_HistoryTransaction_Products" FromRole="HistoryTransaction" ToRole="Products" />
+  </EntityType>
+  <Association Name="FK_HistoryTransaction_Accounts">
+    <End Type="InventoryDBModel.Accounts" Role="Accounts" Multiplicity="1" />
+    <End Type="InventoryDBModel.HistoryTransaction" Role="HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="user_ID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Cart">
+    <End Type="InventoryDBModel.Cart" Role="Cart" Multiplicity="1" />
+    <End Type="InventoryDBModel.HistoryTransaction" Role="HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="CartID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="CartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Category1">
+    <End Type="InventoryDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="InventoryDBModel.HistoryTransaction" Role="HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Products">
+    <End Type="InventoryDBModel.Products" Role="Products" Multiplicity="1" />
+    <End Type="InventoryDBModel.HistoryTransaction" Role="HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="vw_HistoryTransaction">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Order_no" />
+      <PropertyRef Name="Customer" />
+      <PropertyRef Name="Address" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Order_no" Type="Int32" Nullable="false" />
+    <Property Name="Clerk" Type="String" MaxLength="114" FixedLength="false" Unicode="false" />
+    <Property Name="Products" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Customer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

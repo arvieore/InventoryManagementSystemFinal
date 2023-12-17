@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InventoryDBModelStoreContainer" CdmEntityContainer="DB_InventoryEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="InventoryDBModel.Accounts">
+        <MappingFragment StoreEntitySet="Accounts">
+          <ScalarProperty Name="user_Status" ColumnName="user_Status" />
+          <ScalarProperty Name="user_birthdate" ColumnName="user_birthdate" />
+          <ScalarProperty Name="user_gender" ColumnName="user_gender" />
+          <ScalarProperty Name="roleID" ColumnName="roleID" />
+          <ScalarProperty Name="user_position" ColumnName="user_position" />
+          <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+          <ScalarProperty Name="user_email" ColumnName="user_email" />
+          <ScalarProperty Name="user_lastname" ColumnName="user_lastname" />
+          <ScalarProperty Name="user_firstname" ColumnName="user_firstname" />
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="user_password" ColumnName="user_password" />
+          <ScalarProperty Name="user_Address" ColumnName="user_Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_ValidateAccount" FunctionName="InventoryDBModel.Store.sp_ValidateAccount">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_ValidateAccount_Result">
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+          <ScalarProperty Name="user_Position" ColumnName="user_Position" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="InventoryDBModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="InventoryDBModel.Products">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="product_Description" ColumnName="product_Description" />
+          <ScalarProperty Name="product_Price" ColumnName="product_Price" />
+          <ScalarProperty Name="product_Quantity" ColumnName="product_Quantity" />
+          <ScalarProperty Name="product_Sku" ColumnName="product_Sku" />
+          <ScalarProperty Name="product_Name" ColumnName="product_Name" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_AddNewProduct" FunctionName="InventoryDBModel.Store.sp_AddNewProduct" />
+    <FunctionImportMapping FunctionImportName="sp_CategoryFilter" FunctionName="InventoryDBModel.Store.sp_CategoryFilter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_CategoryFilter_Result">
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="product_Name" ColumnName="product_Name" />
+          <ScalarProperty Name="product_Sku" ColumnName="product_Sku" />
+          <ScalarProperty Name="product_Quantity" ColumnName="product_Quantity" />
+          <ScalarProperty Name="product_Price" ColumnName="product_Price" />
+          <ScalarProperty Name="product_Description" ColumnName="product_Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="InventoryDBModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="roleName" ColumnName="roleName" />
+          <ScalarProperty Name="roleID" ColumnName="roleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_AddAccount" FunctionName="InventoryDBModel.Store.sp_AddAccount" />
+    <FunctionImportMapping FunctionImportName="sp_AccountFilter" FunctionName="InventoryDBModel.Store.sp_AccountFilter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_AccountFilter_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_SelectProduct" FunctionName="InventoryDBModel.Store.sp_SelectProduct">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_SelectProduct_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Product_Name" ColumnName="Product Name" />
+          <ScalarProperty Name="SKU" ColumnName="SKU" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_SelectCategory" FunctionName="InventoryDBModel.Store.sp_SelectCategory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_SelectCategory1_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Cart">
+      <EntityTypeMapping TypeName="InventoryDBModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+          <ScalarProperty Name="Order_status" ColumnName="Order_status" />
+          <ScalarProperty Name="customer_address" ColumnName="customer_address" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_LastOrderNumber">
+      <EntityTypeMapping TypeName="InventoryDBModel.vw_LastOrderNumber">
+        <MappingFragment StoreEntitySet="vw_LastOrderNumber">
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_OrderDisplay" FunctionName="InventoryDBModel.Store.sp_OrderDisplay">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_OrderDisplay_Result">
+          <ScalarProperty Name="Clerk" ColumnName="Clerk" />
+          <ScalarProperty Name="Order_no_" ColumnName="Order no." />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="vw_PendingOrders">
+      <EntityTypeMapping TypeName="InventoryDBModel.vw_PendingOrders">
+        <MappingFragment StoreEntitySet="vw_PendingOrders">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="Order_no_" ColumnName="Order no." />
+          <ScalarProperty Name="Clerk" ColumnName="Clerk" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_CartCategoryFilter" FunctionName="InventoryDBModel.Store.sp_CartCategoryFilter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="InventoryDBModel.sp_CartCategoryFilter_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Clerk" ColumnName="Clerk" />
+          <ScalarProperty Name="Order_no_" ColumnName="Order no." />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="HistoryTransaction">
+      <EntityTypeMapping TypeName="InventoryDBModel.HistoryTransaction">
+        <MappingFragment StoreEntitySet="HistoryTransaction">
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="Transact_ID" ColumnName="Transact_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_HistoryTransaction">
+      <EntityTypeMapping TypeName="InventoryDBModel.vw_HistoryTransaction">
+        <MappingFragment StoreEntitySet="vw_HistoryTransaction">
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Products" ColumnName="Products" />
+          <ScalarProperty Name="Clerk" ColumnName="Clerk" />
+          <ScalarProperty Name="Order_no" ColumnName="Order no" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

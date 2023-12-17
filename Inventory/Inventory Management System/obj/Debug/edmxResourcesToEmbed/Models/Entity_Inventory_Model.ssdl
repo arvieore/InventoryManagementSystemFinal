@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InventoryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="user_ID" />
+    </Key>
+    <Property Name="user_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_firstname" Type="varchar" MaxLength="50" />
+    <Property Name="user_lastname" Type="varchar" MaxLength="50" />
+    <Property Name="user_email" Type="varchar" MaxLength="50" />
+    <Property Name="user_phone" Type="varchar" MaxLength="50" />
+    <Property Name="user_gender" Type="varchar" MaxLength="10" />
+    <Property Name="user_birthdate" Type="date" />
+    <Property Name="user_position" Type="varchar" MaxLength="50" />
+    <Property Name="user_name" Type="varchar" MaxLength="50" />
+    <Property Name="user_password" Type="varchar" MaxLength="50" />
+    <Property Name="user_Address" Type="varchar" MaxLength="250" />
+    <Property Name="user_Status" Type="varchar" MaxLength="10" />
+    <Property Name="roleID" Type="int" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="CartID" />
+    </Key>
+    <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+    <Property Name="productID" Type="int" Nullable="false" />
+    <Property Name="categoryID" Type="int" Nullable="false" />
+    <Property Name="user_ID" Type="int" Nullable="false" />
+    <Property Name="OrderQuantity" Type="int" Nullable="false" />
+    <Property Name="customer_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="customer_address" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Order_status" Type="varchar" MaxLength="15" />
+    <Property Name="Order_Date" Type="date" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="HistoryTransaction">
+    <Key>
+      <PropertyRef Name="Transact_ID" />
+    </Key>
+    <Property Name="Transact_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CartID" Type="int" Nullable="false" />
+    <Property Name="user_ID" Type="int" Nullable="false" />
+    <Property Name="productID" Type="int" Nullable="false" />
+    <Property Name="categoryID" Type="int" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_Name" Type="varchar" MaxLength="50" />
+    <Property Name="product_Sku" Type="varchar" MaxLength="50" />
+    <Property Name="product_Quantity" Type="varchar" MaxLength="50" />
+    <Property Name="product_Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="product_Description" Type="varchar" MaxLength="255" />
+    <Property Name="categoryID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="roleName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryDB.dbo.vw_HistoryTransaction' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_HistoryTransaction">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Order no" />
+      <PropertyRef Name="Customer" />
+      <PropertyRef Name="Address" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Order no" Type="int" Nullable="false" />
+    <Property Name="Clerk" Type="varchar" MaxLength="114" />
+    <Property Name="Products" Type="varchar" MaxLength="50" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="Quantity" Type="varchar" MaxLength="50" />
+    <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+    <Property Name="Date" Type="date" />
+    <Property Name="Customer" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryDB.dbo.vw_LastOrderNumber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_LastOrderNumber">
+    <Key>
+      <PropertyRef Name="OrderNo" />
+    </Key>
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryDB.dbo.vw_PendingOrders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_PendingOrders">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="ProductID" />
+      <PropertyRef Name="Order no." />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="Customer" />
+      <PropertyRef Name="Address" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="Clerk" Type="varchar" MaxLength="113" />
+    <Property Name="Order no." Type="int" Nullable="false" />
+    <Property Name="Product" Type="varchar" MaxLength="50" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="Customer" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <Association Name="FK_Accounts_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cart_Accounts">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="user_ID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cart_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cart_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Accounts">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="HistoryTransaction" Type="Self.HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="user_ID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Cart">
+    <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+    <End Role="HistoryTransaction" Type="Self.HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="CartID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="CartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Category1">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="HistoryTransaction" Type="Self.HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoryTransaction_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="HistoryTransaction" Type="Self.HistoryTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="HistoryTransaction">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_AccountFilter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountFiltered" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_AddAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="firstname" Type="varchar" Mode="In" />
+    <Parameter Name="lastname" Type="varchar" Mode="In" />
+    <Parameter Name="email" Type="varchar" Mode="In" />
+    <Parameter Name="phone" Type="varchar" Mode="In" />
+    <Parameter Name="gender" Type="varchar" Mode="In" />
+    <Parameter Name="birthdate" Type="date" Mode="In" />
+    <Parameter Name="position" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+    <Parameter Name="address" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_AddNewProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CategoryName" Type="varchar" Mode="In" />
+    <Parameter Name="productName" Type="varchar" Mode="In" />
+    <Parameter Name="product_sku" Type="varchar" Mode="In" />
+    <Parameter Name="product_quantity" Type="varchar" Mode="In" />
+    <Parameter Name="product_price" Type="decimal" Mode="In" />
+    <Parameter Name="product_description" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_CartCategoryFilter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CategoryFiltered" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_CategoryFilter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CategoryFiltered" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_OrderDisplay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_SelectCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_SelectProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_ValidateAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="user_name" Type="varchar" Mode="In" />
+    <Parameter Name="user_password" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="InventoryDBModelStoreContainer">
+    <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HistoryTransaction" EntityType="Self.HistoryTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_HistoryTransaction" EntityType="Self.vw_HistoryTransaction" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_HistoryTransaction].[ID] AS [ID], 
+    [vw_HistoryTransaction].[Order no] AS [Order no], 
+    [vw_HistoryTransaction].[Clerk] AS [Clerk], 
+    [vw_HistoryTransaction].[Products] AS [Products], 
+    [vw_HistoryTransaction].[Category] AS [Category], 
+    [vw_HistoryTransaction].[Quantity] AS [Quantity], 
+    [vw_HistoryTransaction].[Total] AS [Total], 
+    [vw_HistoryTransaction].[Date] AS [Date], 
+    [vw_HistoryTransaction].[Customer] AS [Customer], 
+    [vw_HistoryTransaction].[Address] AS [Address]
+    FROM [dbo].[vw_HistoryTransaction] AS [vw_HistoryTransaction]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_LastOrderNumber" EntityType="Self.vw_LastOrderNumber" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_LastOrderNumber].[OrderNo] AS [OrderNo]
+    FROM [dbo].[vw_LastOrderNumber] AS [vw_LastOrderNumber]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_PendingOrders" EntityType="Self.vw_PendingOrders" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_PendingOrders].[ID] AS [ID], 
+    [vw_PendingOrders].[ProductID] AS [ProductID], 
+    [vw_PendingOrders].[Clerk] AS [Clerk], 
+    [vw_PendingOrders].[Order no.] AS [Order no.], 
+    [vw_PendingOrders].[Product] AS [Product], 
+    [vw_PendingOrders].[Quantity] AS [Quantity], 
+    [vw_PendingOrders].[Price] AS [Price], 
+    [vw_PendingOrders].[Category] AS [Category], 
+    [vw_PendingOrders].[Customer] AS [Customer], 
+    [vw_PendingOrders].[Address] AS [Address], 
+    [vw_PendingOrders].[Status] AS [Status]
+    FROM [dbo].[vw_PendingOrders] AS [vw_PendingOrders]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Accounts_Role" Association="Self.FK_Accounts_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cart_Accounts" Association="Self.FK_Cart_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cart_Category" Association="Self.FK_Cart_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cart_Products" Association="Self.FK_Cart_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Accounts" Association="Self.FK_HistoryTransaction_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Cart" Association="Self.FK_HistoryTransaction_Cart">
+      <End Role="Cart" EntitySet="Cart" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Category1" Association="Self.FK_HistoryTransaction_Category1">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoryTransaction_Products" Association="Self.FK_HistoryTransaction_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="HistoryTransaction" EntitySet="HistoryTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Category" Association="Self.FK_Products_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
