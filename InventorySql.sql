@@ -154,6 +154,16 @@ BEGIN
 	categoryName
 	FROM Category
 END
+
+CREATE VIEW vw_SelectProducts
+AS
+	SELECT productID as ID,
+	product_Name as 'Product Name',
+	product_Sku as SKU,
+	product_Quantity as Quantity,
+	product_Price as Price,
+	product_Description as Description
+	FROM Products
 -------------------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE sp_OrderDisplay
 	@orderNo int
@@ -301,13 +311,26 @@ AS
 		Category.categoryName, C.Order_Date, C.customer_name, C.customer_Address;
 
 ---------------------------------------------------------------------------------------------------------------------
+CREATE VIEW vw_BestSeller
+AS
+    SELECT --TOP 100 PERCENT
+		p.productID AS 'ID',
+        p.product_Name AS 'Products',
+        COUNT(*) AS 'Number of orders',
+        SUM(c.OrderQuantity) AS 'Total quantity',
+        ROUND(SUM(CAST(p.product_Price * p.product_Quantity AS DECIMAL(10, 2))), 2) AS 'Total' 
+    FROM 
+        HistoryTransaction h
+        JOIN Products p ON p.productID = h.productID
+        JOIN Cart c ON c.CartID = h.CartID
+    GROUP BY 
+        p.productID, p.product_Name;
 
-SELECT FORMAT(SUM(Total), 'N2') FROM vw_HistoryTransaction
-
+---------------------------------------------------------------------------------------------------
 
 SELECT * FROM vw_PendingOrders
 SELECT * FROM vw_Transaction_History
-
+SELECT * FROM vw_BestSeller
 SELECT * FROM Cart
 SELECT * FROM Category
 SELECT * FROM Products

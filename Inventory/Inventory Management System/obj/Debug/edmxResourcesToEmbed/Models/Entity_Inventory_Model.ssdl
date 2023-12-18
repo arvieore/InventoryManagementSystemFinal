@@ -70,6 +70,18 @@
     <Property Name="roleName" Type="varchar" MaxLength="50" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryDB.dbo.vw_BestSeller' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_BestSeller">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Products" Type="varchar" MaxLength="50" />
+    <Property Name="Number of orders" Type="int" />
+    <Property Name="Total quantity" Type="int" />
+    <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'InventoryDB.dbo.vw_LastOrderNumber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_LastOrderNumber">
     <Key>
@@ -99,6 +111,19 @@ warning 6002: The table/view 'InventoryDB.dbo.vw_PendingOrders' does not have a 
     <Property Name="Customer" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Status" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InventoryDB.dbo.vw_SelectProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_SelectProducts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Product Name" Type="varchar" MaxLength="50" />
+    <Property Name="SKU" Type="varchar" MaxLength="50" />
+    <Property Name="Quantity" Type="varchar" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Description" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'InventoryDB.dbo.vw_Transaction_History' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -273,6 +298,15 @@ warning 6002: The table/view 'InventoryDB.dbo.vw_Transaction_History' does not h
     <EntitySet Name="HistoryTransaction" EntityType="Self.HistoryTransaction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_BestSeller" EntityType="Self.vw_BestSeller" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_BestSeller].[ID] AS [ID], 
+    [vw_BestSeller].[Products] AS [Products], 
+    [vw_BestSeller].[Number of orders] AS [Number of orders], 
+    [vw_BestSeller].[Total quantity] AS [Total quantity], 
+    [vw_BestSeller].[Total] AS [Total]
+    FROM [dbo].[vw_BestSeller] AS [vw_BestSeller]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_LastOrderNumber" EntityType="Self.vw_LastOrderNumber" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_LastOrderNumber].[OrderNo] AS [OrderNo]
@@ -292,6 +326,16 @@ warning 6002: The table/view 'InventoryDB.dbo.vw_Transaction_History' does not h
     [vw_PendingOrders].[Address] AS [Address], 
     [vw_PendingOrders].[Status] AS [Status]
     FROM [dbo].[vw_PendingOrders] AS [vw_PendingOrders]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_SelectProducts" EntityType="Self.vw_SelectProducts" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_SelectProducts].[ID] AS [ID], 
+    [vw_SelectProducts].[Product Name] AS [Product Name], 
+    [vw_SelectProducts].[SKU] AS [SKU], 
+    [vw_SelectProducts].[Quantity] AS [Quantity], 
+    [vw_SelectProducts].[Price] AS [Price], 
+    [vw_SelectProducts].[Description] AS [Description]
+    FROM [dbo].[vw_SelectProducts] AS [vw_SelectProducts]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Transaction_History" EntityType="Self.vw_Transaction_History" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

@@ -48,11 +48,60 @@ namespace Inventory_Management_System.UserControls
         private void Cbox_Category_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             LoadReport();
+            LoadBestSeller();
         }
 
         private void txtSearch_TextChanged_1(object sender, EventArgs e)
         {
             FilterData(txtSearch.Text);
+        }
+        private void FilterData(string searchText)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    LoadReport();
+                }
+                else
+                {
+                    var filteredData = db.vw_Transaction_History
+                        .Where(p =>
+                            p.Order_no.ToString().Contains(searchText) ||
+                            p.Clerk.Contains(searchText) ||
+                            p.Products.Contains(searchText) ||
+                            p.Category.Contains(searchText) ||
+                            p.Customer.Contains(searchText) ||
+                            p.Address.Contains(searchText) ||
+                            p.Date.ToString().Contains(searchText)
+                        ).ToList();
+                    dgv_Transactions.DataSource = filteredData;
+
+                    var filteredTotal = db.vw_Transaction_History
+                        .Where(p =>
+                            p.Order_no.ToString().Contains(searchText) ||
+                            p.Clerk.Contains(searchText) ||
+                            p.Products.Contains(searchText) ||
+                            p.Category.Contains(searchText) ||
+                            p.Customer.Contains(searchText) ||
+                            p.Address.Contains(searchText) ||
+                            p.Date.ToString().Contains(searchText)
+                        ).Select(p => p.Total).Sum().ToString();
+
+                    decimal? total = Decimal.Parse(filteredTotal);
+
+                    if (total > 0)
+                    {
+                        lblTotal.Text = "₱ " + total?.ToString("#,##0.00");
+                    }
+                    else
+                        lblTotal.Text = "₱ 0.00";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
         }
         private void LoadReport()
         {
@@ -98,52 +147,21 @@ namespace Inventory_Management_System.UserControls
                     lblTotal.Text = "₱ 0.00";
             }
         }
-        private void FilterData(string searchText)
+        private void LoadBestSeller()
         {
-            try
+            var bestSellers = db.vw_BestSeller.ToList().OrderByDescending(item => item.Number_of_orders).ToList();
+            dgv_BestSeller.DataSource = bestSellers;
+
+            dgv_BestSeller.Columns["ID"].Visible = false;
+            dgv_BestSeller.Columns["Number_of_orders"].HeaderText = "Number of orders";
+            dgv_BestSeller.Columns["Total_quantity"].HeaderText = "Total quantity";
+        }
+
+        private void dgv_BestSeller_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex == 0)
             {
-                if (string.IsNullOrEmpty(searchText))
-                {
-                    LoadReport();
-                }
-                else
-                {
-                    var filteredData = db.vw_Transaction_History
-                        .Where(p =>
-                            p.Order_no.ToString().Contains(searchText) ||
-                            p.Clerk.Contains(searchText) ||
-                            p.Products.Contains(searchText) ||
-                            p.Category.Contains(searchText) ||
-                            p.Customer.Contains(searchText) ||
-                            p.Address.Contains(searchText) ||
-                            p.Date.ToString().Contains(searchText)
-                        ).ToList();
-                    dgv_Transactions.DataSource = filteredData;
-
-                    var filteredTotal = db.vw_Transaction_History
-                        .Where(p =>
-                            p.Order_no.ToString().Contains(searchText) ||
-                            p.Clerk.Contains(searchText) ||
-                            p.Products.Contains(searchText) ||
-                            p.Category.Contains(searchText) ||
-                            p.Customer.Contains(searchText) ||
-                            p.Address.Contains(searchText) ||
-                            p.Date.ToString().Contains(searchText)
-                        ).Select(p => p.Total).Sum().ToString();
-
-                    decimal? total = Decimal.Parse(filteredTotal);
-
-                    if (total > 0)
-                    {
-                        lblTotal.Text = "₱ " + total?.ToString("#,##0.00");
-                    }
-                    else
-                        lblTotal.Text = "₱ 0.00";
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("Error: " + ex);
+                dgv_BestSeller.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
             }
         }
     }
